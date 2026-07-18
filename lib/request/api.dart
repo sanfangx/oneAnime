@@ -1,9 +1,10 @@
 import 'package:oneanime/utils/constans.dart';
 
 class Api {
-  static const String domain = '${HttpString.baseUrl}/';
-  static const String animeList = 'https://d1zquzjgwo9yb.cloudfront.net/';
-  static const String videoAPI = 'https://v.anime1.me/api';
+  static const String domain = 'https://openani.an-i.workers.dev/';
+  static const String animeList = '';
+  static const String videoAPI = '';
+  static const String openaniBaseUrl = 'https://openani.an-i.workers.dev';
   static const String version = '1.4.6';
   static const String sourceUrl = "https://github.com/Predidit/oneAnime";
   static const String aniDanmakuAPI = "https://ani.gamer.com.tw/ajax/danmuGet.php";

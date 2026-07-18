@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
@@ -97,11 +98,19 @@ abstract class _PopularController with Store {
   Future getVideoLink(String url, {int episode = 1}) async {
     final VideoController videoController = Modular.get<VideoController>();
     videoController.episode = episode;
-    videoController.token = await VideoRequest.getVideoToken(url);
-    var result = await VideoRequest.getVideoLink(
-        videoController.token[videoController.token.length - episode]);
-    videoController.videoUrl = result['link'];
-    videoController.videoCookie = result['cookie'];
+    
+    final uri = Uri.parse(url);
+    final linkId = int.tryParse(uri.queryParameters['cat'] ?? '') ?? 0;
+    
+    final anime = GStorage.listCahce.values.firstWhere((e) => e.link == linkId);
+    videoController.title = anime.name ?? '';
+    
+    final List<dynamic> epList = jsonDecode(anime.subtitle ?? '[]');
+    final List<String> urls = epList.map((e) => e['url'] as String).toList();
+    
+    videoController.token = urls.reversed.toList();
+    videoController.videoUrl = videoController.token[videoController.token.length - episode];
+    videoController.videoCookie = '';
   }
 
   void filterList(String keyword) async {

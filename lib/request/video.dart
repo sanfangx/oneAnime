@@ -89,25 +89,9 @@ class VideoRequest {
   }
 
   static Future getVideoLink(String token) async {
-    // Todo 剧集切换
-    String link = '';
     var result = {};
-    List<String> cookies = [];
-    final res = await Request().post(Api.videoAPI,
-        data: 'd=$token',
-        options: Options(contentType: 'application/x-www-form-urlencoded'));
-    try {
-      link = 'https:${res.data['s'][0]['src']}';
-      cookies = res?.headers['set-cookie'];
-      debugPrint('用于视频验权的cookie为 ${Utils.videoCookieC(cookies)}');
-    } catch (e) {
-      debugPrint(e.toString());
-      result['link'] = link;
-      result['cookie'] = '';
-      return result;
-    }
-    result['link'] = link;
-    result['cookie'] = Utils.videoCookieC(cookies);
+    result['link'] = token;
+    result['cookie'] = '';
     return result;
   }
 }
